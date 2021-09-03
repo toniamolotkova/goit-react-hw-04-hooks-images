@@ -1,0 +1,11 @@
+.img {
+  margin: 30px auto;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+
+  color: rgb(79, 79, 211);
+}
