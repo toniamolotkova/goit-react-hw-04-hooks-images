@@ -10,7 +10,12 @@ const fetchImagesWithQuery = (searchQuery, page) => {
     )
     .then(response => {
       if (response.status === 200) {
-        return response.data.hits;
+        if (response.data.length !== 0) {
+          return response.data.hits;
+        }
+      }
+      if (response.status === 404) {
+        throw new Error(response.message || 'Your query is not find');
       }
     });
 };
