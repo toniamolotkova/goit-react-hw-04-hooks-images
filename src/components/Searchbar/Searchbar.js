@@ -19,7 +19,7 @@ function Searchbar({ onSubmit }) {
       return;
     }
 
-    onSubmit(searchValue);
+    onSubmit( searchValue );
     setSearchValue('');
   };
 

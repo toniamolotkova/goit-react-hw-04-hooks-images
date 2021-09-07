@@ -8,6 +8,7 @@ import ImageGallery from 'components/ImageGallery';
 function App() {
   const [searchValue, setSearchValue] = useState('');
 
+
   const handleFormSubmit = searchValue => {
     setSearchValue(searchValue);
   };
