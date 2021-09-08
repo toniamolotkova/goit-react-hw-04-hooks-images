@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import PropTypes from 'prop-types';
@@ -35,29 +36,26 @@ function ImageGallery({ searchValue }) {
     API.fetchImagesWithQuery(searchValue, 1)
       .then(response => {
 
-        setImages(response);
-        setStatus(Status.RESOLVED);
-
-        // setImages(prevImages => [...prevImages, ...response]);
-        // setStatus(Status.RESOLVED);
-
-        // window.scrollTo({
-        //   top: document.documentElement.scrollHeight,
-        //   behavior: 'smooth',
-        // });
+        if (response.length === 0) {
+          toast.error(`Can't find ${searchValue}. Sorry(`)
+          setStatus(Status.REJECTED);
+          return;
+        }
+          setImages(response);
+          setStatus(Status.RESOLVED);
           
       })
       .catch(error => {
         setError(error.message);
         setStatus(Status.REJECTED);
       });
-    //console.log('render first')
-   
-  }, [searchValue]);
+    setPage(2)
 
-  useEffect(() => {
-    if (!searchValue) return;
-    setStatus(Status.PENDING);
+   
+  }, [ searchValue ]);
+
+  const handleClickBtn = () => {
+    setPage(page + 1);
 
     API.fetchImagesWithQuery(searchValue, page)
       .then(response => {
@@ -73,29 +71,6 @@ function ImageGallery({ searchValue }) {
         setError(error.message);
         setStatus(Status.REJECTED);
       });
-    console.log('render with click')
-  }, [page]);
-
-  // 
-
-  const handleClickBtn = () => {
-    setPage(page + 1);
-
-  // API.fetchImagesWithQuery(searchValue, page)
-  //     .then(response => {
-  //       setImages(prevImages => [...prevImages, ...response]);
-  //       setStatus(Status.RESOLVED);
-
-  //       window.scrollTo({
-  //         top: document.documentElement.scrollHeight,
-  //         behavior: 'smooth',
-  //       });
-  //     })
-  //     .catch(error => {
-  //       setError(error.message);
-  //       setStatus(Status.REJECTED);
-  //     });
-  //   console.log('render on click')
   };
 
   const toggleModal = modalImageInfo => {
